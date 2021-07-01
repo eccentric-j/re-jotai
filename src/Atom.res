@@ -40,6 +40,22 @@ let value = getter->Jotai.Atom.get(atom)
 ")
 let get = (type value, get: getter, atom: t<value, _, [> Permissions.r]>): value =>
   Obj.magic(get, atom)
+}
+
+@ocaml.doc("
+* Get a value within a writable atom which takes an optional second bool arg
+* to support an unstable promise as of v1.0.1
+")
+let getInWritable = (
+  type value,
+  get: getter,
+  atom: t<value, _, [> Permissions.r]>,
+  ~unstablePromise=true,
+  (),
+): value => {
+  let fn = Obj.magic(get, atom)
+  fn(unstablePromise)
+}
 
 @ocaml.doc("An inhabited type used for the derived, write only, atoms")
 type void

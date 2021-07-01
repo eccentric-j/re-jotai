@@ -23,9 +23,9 @@ let incDoubleCounterDervivedAtom = Atom.makeDerived(getter => {
 let writableDerivedCounter = Atom.makeWritableDerived(
   getter => getter->Atom.get(counterAtom) * 3,
   (getter, setter, arg) => {
-    let counter = getter->Atom.get(counterAtom) * 3
+    let counter = getter->Atom.getInWritable(counterAtom, ~unstablePromise=false, ())
 
-    setter->Atom.set(counterAtom, counter + arg)
+    setter->Atom.set(counterAtom, counter * 3 + arg)
   },
 )
 
