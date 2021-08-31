@@ -1,29 +1,44 @@
 {
-  "name": "re-jotai",
+  "name": "@crunchy-libs/re-jotai",
   "version": "0.1.0",
   "description": "Jotai bindings in ReScript",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "clean": "rescript clean",
     "build": "rescript build -with-deps",
     "test": "yarn build && jest",
-    "test:update": "yarn build && jest --updateSnapshot"
+    "test:update": "yarn build && jest --updateSnapshot",
+    "start": "rescript build -w -with-deps",
+    "lint": "sh -c exit 0",
+    "tsc": "sh -c exit 0"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "./scripts/babelTransform.js"
+    },
+    "testEnvironment": "jsdom",
     "testMatch": [
-      "**/test/**/*_Test.js"
+      "**/test/**/*_Test.bs.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(.*bs-.*|.*rescript.*|jotai)/)",
+      "^.+\\.module\\.(css|sass|scss)$"
     ]
   },
   "devDependencies": {
-    "@glennsl/bs-jest": "^0.6.0",
+    "@glennsl/bs-jest": "^0.7.0",
     "@rescriptbr/react-testing-library": "^1.0.1",
-    "react": "^17.0.1",
+    "babel-jest": "^26.6.0",
+    "babel-preset-react-app": "^10.0.0",
+    "gentype": "^4.1.0",
+    "jotai": "^1.3.2",
     "rescript": "^9.1.4"
   },
   "dependencies": {
-    "@rescript/react": "^0.10.1",
+    "@rescript/react": "^0.10.3",
+    "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "scheduler": "^0.20.1"
+    "scheduler": "^0.20.2"
   },
   "peerDependencies": {
     "jotai": "^1.0.0"

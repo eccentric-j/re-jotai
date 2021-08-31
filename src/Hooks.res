@@ -1,14 +1,14 @@
-@module("jotai")
+@module("jotai/esm")
 external use: Atom.t<'value, 'setValue, Atom.Permissions.rw> => ('value, 'setValue => unit) =
   "useAtom"
 
-@module("jotai")
+@module("jotai/esm")
 external useReadableInternal: Atom.t<'value, 'setValue, [> Atom.Permissions.r]> => (
   'value,
   Atom.void,
 ) = "useAtom"
 
-@module("jotai")
+@module("jotai/esm")
 external useWritableInternal: Atom.t<'value, 'setValue, [> Atom.Permissions.w]> => (
   Atom.void,
   'setValue => unit,

@@ -12,5 +12,5 @@ module App = {
 ```
 ")
 
-@module("jotai") @react.component
+@module("jotai/esm") @react.component
 external make: (~children: React.element) => React.element = "Provider"

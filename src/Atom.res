@@ -24,7 +24,7 @@ type t<'value, 'setValue, 'permissions> constraint 'permissions = [< Permissions
 let counterAtom = Jotai.Atom.make(10)
 ```
 ")
-@module("jotai")
+@module("jotai/esm")
 external make: 'value => t<'value, 'value => 'value, Permissions.rw> = "atom"
 
 @ocaml.doc("Under the hood, getter is a function that takes an atom and returns a value for this atom.
@@ -40,22 +40,6 @@ let value = getter->Jotai.Atom.get(atom)
 ")
 let get = (type value, get: getter, atom: t<value, _, [> Permissions.r]>): value =>
   Obj.magic(get, atom)
-}
-
-@ocaml.doc("
-* Get a value within a writable atom which takes an optional second bool arg
-* to support an unstable promise as of v1.0.1
-")
-let getInWritable = (
-  type value,
-  get: getter,
-  atom: t<value, _, [> Permissions.r]>,
-  ~unstablePromise=true,
-  (),
-): value => {
-  let fn = Obj.magic(get, atom)
-  fn(unstablePromise)
-}
 
 @ocaml.doc("An inhabited type used for the derived, write only, atoms")
 type void
@@ -66,7 +50,7 @@ type void
 let doubleCounterDerivedAtom = Jotai.Atom.makeDerived(getter => getter->Jotai.Atom.get(counterAtom) * 2)
 ```
 ")
-@module("jotai")
+@module("jotai/esm")
 external makeDerived: (getter => 'derivedValue) => t<'derivedValue, void, Permissions.r> = "atom"
 
 @ocaml.doc("Creates an async derived (readonly) atom.
@@ -81,7 +65,7 @@ let asyncDerivedAtom = Jotai.Atom.makeAsyncDerived(getter =>
 )
 ```
 ")
-@module("jotai")
+@module("jotai/esm")
 external makeAsynDerived: (getter => Js.Promise.t<'derivedValue>) => t<
   'derivedValue,
   void,
@@ -103,7 +87,7 @@ setter->Jotai.Atom.set(atom, newValue)
 let set = (
   type value,
   set: setter,
-  atom: t<value, 'arg, [> Permissions.w]>,
+  atom: t<value, 'set, [> Permissions.w]>,
   newValue: value,
 ): unit => Obj.magic(set, atom, newValue)
 
@@ -121,7 +105,7 @@ let writableDerivedCounter = Atom.makeWritableDerived(
 )
 ```
 ")
-@module("jotai")
+@module("jotai/esm")
 external makeWritableDerived: (
   getter => 'derivedValue,
   (getter, setter, 'arg) => unit,
